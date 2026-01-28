@@ -17,7 +17,7 @@ function Header() {
             </Link>
 
             <nav>
-                <Link href="/coins" className={cn('nav-link', {
+                <Link href="/" className={cn('nav-link', {
                     'is-active' : pathname === '/',
                     'is-home' : true
                 })}>home </Link>
