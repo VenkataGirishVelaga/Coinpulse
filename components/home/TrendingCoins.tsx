@@ -59,7 +59,7 @@ const TrendingCoins = async () => {
             <DataTable
               data={trendingCoinsData.slice(0, 6) || []}
               columns={columns}
-              rowKey={(row, index) => row.item.id}
+              rowKey={(row, _index) => row.item.id}
                tableClassName="trending-coins-table"
                headerCellClassName="py-3!"
                bodyCellClassName="py-2! "
