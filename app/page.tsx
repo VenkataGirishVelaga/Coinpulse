@@ -1,15 +1,10 @@
-
 import Coinoverview from '@/components/home/Coinoverview';
 import TrendingCoins from '@/components/home/TrendingCoins';
 import { CoinOverviewFallback, TrendingCoinsFallback } from '@/components/home/fallback';
 import React, { Suspense } from 'react'
 
 
-
-
-
 async function page() {
-
   return (
     <main className='main-container'>
       <section className='home-grid'>
