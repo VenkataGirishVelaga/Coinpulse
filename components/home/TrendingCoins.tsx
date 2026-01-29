@@ -1,5 +1,5 @@
 import { fetcher } from '@/lib/coingecko.actions'
-import { cn } from '@/lib/utils';
+import { cn, formatCurrency, formatPercentage } from '@/lib/utils';
 import { TrendingDown, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,26 +38,26 @@ const TrendingCoins = async () => {
 
         return (
           <div className={cn('price-change', isTrendingUP ? 'text-green-500' : 'text-red-500')}>
-              <p>
+              <p className='flex'>
                 { isTrendingUP ? (
                   <TrendingUp width={16} height={16}/>
                 ) :
                   <TrendingDown width={16} height={16} />
                 }
-                {Math.abs(item.data.price_change_percentage_24h.usd).toFixed(2)}%
+                {formatPercentage(item.data.price_change_percentage_24h.usd)}
               </p>
           </div>
         )
       }
     },
-  { header: 'Price', cellClassName: 'price-cell', cell: (coin) => coin.item.data.price},
+  { header: 'Price', cellClassName: 'price-cell', cell: (coin) => formatCurrency(coin.item.data.price)},
 ]
   return (
     <div id="trending-coins">
         <h4> Trending Coins</h4>
         <div id="trending-coins">
             <DataTable
-              data={trendingCoinsData.slice(0, 6) || []}
+              data={trendingCoinsData.slice(0, 6)}
               columns={columns}
               rowKey={(row, _index) => row.item.id}
                tableClassName="trending-coins-table"
@@ -72,3 +72,7 @@ const TrendingCoins = async () => {
 }
 
 export default TrendingCoins
+
+function foramtCurrency(price: number): React.ReactNode {
+  throw new Error('Function not implemented.');
+}
