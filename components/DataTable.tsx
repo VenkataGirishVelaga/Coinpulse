@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -28,7 +27,6 @@ interface DataTableProps<T> {
 const DataTable = <T,>({ columns, data, rowKey, tableClassName, headerRowClassName, headerCellClassName, bodyRowClassName, bodyCellClassName, headerClassName}: DataTableProps<T>) => {
   return (
     <Table className={cn('custom-scrollbar', tableClassName)}>
-        <TableCaption>A list of your recent invoices.</TableCaption>
             <TableHeader className={headerClassName}>
                 <TableRow className={cn('hover:bg-transparent', headerRowClassName)}>
                     {columns.map((column, i) => (
