@@ -72,3 +72,88 @@ export async function getPools(
     return fallback;
   }
 }
+
+export async function searchCoins(query: string): Promise<SearchCoin[]> {
+  try {
+    // Step 1: Search for coins by name/symbol
+    const searchData = await fetcher<{ coins: any[] }>(
+      'search',
+      { query }
+    );
+    
+    const coinIds = (searchData.coins || []).slice(0, 10).map((coin: any) => coin.id);
+    
+    if (coinIds.length === 0) return [];
+    
+    // Step 2: Fetch market data for the found coins
+    const marketData = await fetcher<any[]>(
+      'coins/markets',
+      {
+        vs_currency: 'usd',
+        ids: coinIds.join(','),
+        order: 'market_cap_desc',
+        per_page: 250,
+        page: 1,
+        sparkline: false,
+      }
+    );
+    
+    // Step 3: Merge search data with market data
+    const coinMap = new Map(
+      (marketData || []).map((coin: any) => [
+        coin.id,
+        {
+          price_change_percentage_24h: coin.price_change_percentage_24h || 0,
+          thumb: coin.image,
+        },
+      ])
+    );
+    
+    return (searchData.coins || [])
+      .slice(0, 10)
+      .map((coin: any) => {
+        const marketInfo = coinMap.get(coin.id);
+        return {
+          id: coin.id,
+          name: coin.name,
+          symbol: coin.symbol,
+          thumb: coin.thumb,
+          data: {
+            price_change_percentage_24h: marketInfo?.price_change_percentage_24h || 0,
+          },
+        } as SearchCoin;
+      });
+  } catch (error) {
+    console.error('Search error:', error);
+    return [];
+  }
+}
+
+export async function getTrendingCoins(): Promise<TrendingCoin[]> {
+  try {
+    const data = await fetcher<{ coins: any[] }>(
+      'search/trending'
+    );
+    
+    // Map the API response to TrendingCoin format
+    return (data.coins || []).map((coin: any) => {
+      const itemData = coin.item || coin;
+      return {
+        item: {
+          id: itemData.id,
+          name: itemData.name,
+          symbol: itemData.symbol,
+          thumb: itemData.thumb,
+          data: {
+            price_change_percentage_24h: {
+              usd: itemData.data?.price_change_percentage_24h?.usd || 0,
+            },
+          },
+        },
+      } as TrendingCoin;
+    });
+  } catch (error) {
+    console.error('Trending coins error:', error);
+    return [];
+  }
+}

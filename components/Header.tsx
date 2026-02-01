@@ -1,14 +1,12 @@
-'use client'
-
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { SearchModal } from "./SearchModal";
+import { getTrendingCoins } from "@/lib/coingecko.actions";
 
-
-
-function Header() {
-    const pathname = usePathname();
+async function Header() {
+    const trendingCoins = await getTrendingCoins();
+    
   return (
     <header>
         <div className = "main-container inner">
@@ -18,14 +16,14 @@ function Header() {
 
             <nav>
                 <Link href="/" className={cn('nav-link', {
-                    'is-active' : pathname === '/',
+                    'is-active' : false,
                     'is-home' : true
-                })}>home </Link>
+                })}>Home </Link>
 
-                <p>Search Modal</p>
+                <SearchModal initialTrendingCoins={trendingCoins} />
 
                 <Link href="/coins" className={cn('nav-link', {
-                    'is-active' : pathname === '/coins',
+                    'is-active' : false,
                 })}>All Coins </Link>
             </nav>
         </div>
