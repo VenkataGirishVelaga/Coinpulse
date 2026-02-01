@@ -500,14 +500,14 @@
   }
 
   #coin-details-page {
-    @apply py-12 px-4 sm:px-6 mx-auto max-w-360 size-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 items-center gap-6 xl:gap-10 justify-center;
+    @apply py-12 px-4 sm:px-6 mx-auto max-w-360 size-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 items-center gap-6 xl:gap-10 justify-center;
 
     .primary {
       @apply size-full xl:col-span-2;
     }
 
     .secondary {
-      @apply size-full max-lg:mt-8 lg:col-span-1;
+      @apply size-full max-md:mt-8 md:col-span-1;
     }
 
     .exchange-section {
@@ -790,7 +790,7 @@
       @apply flex gap-4;
 
       h1 {
-        @apply text-3xl sm:text-5xl xl:text-6xl font-semibold;
+        @apply text-2xl sm:text-3xl xl:text-4xl font-semibold;
       }
     }
 
